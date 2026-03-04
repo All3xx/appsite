@@ -1,0 +1,16 @@
+Version: v1.1.2
+Date: 2026-03-04
+
+Fix: Filament 403 on /admin/login
+
+- App\Models\User now implements FilamentUser.
+- Added canAccessPanel(Panel $panel) to explicitly allow panel access.
+- Access rules:
+  - local env: allow
+  - is_master = true: allow
+  - role.name in: admin, superadmin, owner, manager: allow
+  - otherwise: deny
+
+Security note:
+- This does NOT open the panel to everyone.
+- It defines an explicit allow-list based on server-side user attributes.
