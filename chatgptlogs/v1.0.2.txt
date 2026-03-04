@@ -1,0 +1,9 @@
+Version: v1.0.2
+Date: 2026-03-03
+
+Fix:
+- Filament v5 Resource::form() signature uses Filament\Schemas\Schema, not Filament\Forms\Form.
+- Updated all custom Resources to:
+  public static function form(Schema $schema): Schema
+  and use $schema->components([...])
+Refs: Filament 5 resources docs.

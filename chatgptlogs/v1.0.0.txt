@@ -1,0 +1,15 @@
+Version: v1.0.0
+Date: 2026-03-03
+
+Added:
+- Multi-tenant foundation (subfolder): /{tenant_slug}/admin
+- Master panel: /master
+- Global permissions, tenant roles, user role assignment
+- Employees with hourly rate history
+- Sites and assignments
+- Time entries and audit log
+- Future check events table (check-in/out) as events
+
+Notes:
+- Filament resources are minimal CRUD, designed for rapid iteration.
+- Business rules are in services/policies, not in Filament closures.

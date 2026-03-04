@@ -1,0 +1,9 @@
+Version: v1.0.3
+Date: 2026-03-03
+
+Root cause:
+- Filament v5 moved auth pages from Filament\Pages\Auth\* to Filament\Auth\Pages\*.
+- Filament v5 login page uses Filament\Schemas\Schema (not Filament\Forms\Form) for the form schema.
+
+Fix:
+- Updated app/Filament/Auth/UsernameLogin.php to extend Filament\Auth\Pages\Login and override form/schema + credentials for username login.

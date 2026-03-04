@@ -1,0 +1,17 @@
+Version: v1.0.9
+Date: 2026-03-04
+
+Fix:
+- Add safe entrypoints /admin and /admin/login.
+- Redirect /admin/login to the first existing tenant login URL: /{tenant}/admin/login.
+- Prevent 500 error: Missing required parameter [tenant] for Filament tenant login route, when user opens /admin or other non-tenant URL.
+
+Files:
+- app/Providers/AppServiceProvider.php
+- routes/chatgpt_entrypoints.php
+
+How to use:
+1) Extract this patch into project root.
+2) Run: php artisan optimize:clear
+3) Open: /admin/login
+4) If you see "No tenant found", create a tenant record in DB table tenants, then open /admin/login again.

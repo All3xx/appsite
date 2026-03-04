@@ -1,0 +1,6 @@
+Version: v1.0.5
+Date: 2026-03-04
+
+Change:
+- Update app/Models/User.php to include AppSantier fields and relations:
+  username, tenant_id, role_id, is_master, relations to Tenant/Role/Employee.

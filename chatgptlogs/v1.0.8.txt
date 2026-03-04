@@ -1,0 +1,6 @@
+Version: v1.0.8
+Date: 2026-03-04
+
+Fix:
+- Guard cache tables migration to avoid conflict with Laravel's default cache migration.
+- Create `cache` and `cache_locks` only if they do not already exist.

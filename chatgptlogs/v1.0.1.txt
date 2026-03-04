@@ -1,0 +1,6 @@
+Version: v1.0.1
+Date: 2026-03-03
+
+Fix:
+- Filament v5 + PHP 8.4: Resource::$navigationGroup must match parent type (UnitEnum|string|null).
+- Updated all custom Resources to use: protected static \UnitEnum|string|null $navigationGroup = '...';

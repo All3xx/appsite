@@ -1,0 +1,14 @@
+Update your app/Models/User.php as follows:
+
+1) Add fillable fields:
+- username, tenant_id, role_id, is_master
+
+2) Add casts:
+- is_master => boolean
+
+3) Add relationships:
+- role() belongsTo App\Models\Role
+- tenant() belongsTo App\Models\Tenant
+- employee() hasOne App\Models\Employee
+
+Example snippets are in patch_notes/User_snippet.php

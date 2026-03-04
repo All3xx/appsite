@@ -1,0 +1,10 @@
+Version: v1.0.4
+Date: 2026-03-03
+
+Root cause:
+- Resource::getPages() references Pages\* but Resource file is missing the correct Pages import.
+- PHP resolves Pages\* into the current namespace (App\Filament\...\Resources\Pages\*), which does not exist.
+
+Fix:
+- Added correct `use ...\Resources\<Resource>\Pages;` import for each custom Resource.
+- No behavior change besides correct class resolution.
