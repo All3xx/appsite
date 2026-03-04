@@ -8,23 +8,24 @@ use Illuminate\Support\Facades\Schema;
 | ChatGPT entrypoints for Filament tenant panel
 |--------------------------------------------------------------------------
 |
-| Problem fixed:
-| Filament tenant panel uses routes like: /{tenant}/admin/login
-| When user opens /admin (without tenant), Filament may try to generate
-| the tenant login URL without the {tenant} parameter and throw 500.
-|
-| These routes provide a simple, safe entry point:
+| These routes provide safe entry points:
 | - /admin       -> /admin/login
 | - /admin/login -> /{firstTenant}/admin/login
 |
+| They run WITHOUT extra middleware to avoid 403 caused by restrictive 'web'
+| or custom middleware added to route groups.
+|
 */
 
-Route::get('/admin', function () {
+Route::middleware([])->get('/chatgpt/ping', function () {
+    return response('ok', 200);
+})->name('chatgpt.ping');
+
+Route::middleware([])->get('/admin', function () {
     return redirect()->to('/admin/login');
 })->name('chatgpt.admin.entry');
 
-Route::get('/admin/login', function () {
-    // Default message for empty DB or missing model.
+Route::middleware([])->get('/admin/login', function () {
     $noTenantMsg = 'No tenant found. Create one in DB table tenants, then open /{tenant}/admin/login or /admin/login.';
 
     try {
@@ -43,20 +44,16 @@ Route::get('/admin/login', function () {
             return response($noTenantMsg, 404);
         }
 
-        // Pick a stable route key.
         $tenantKey = null;
 
-        // Prefer slug if it exists.
         if (Schema::hasColumn('tenants', 'slug') && !empty($tenant->slug)) {
             $tenantKey = $tenant->slug;
         }
 
-        // Fallback to id.
         if (!$tenantKey && isset($tenant->id) && !empty($tenant->id)) {
             $tenantKey = $tenant->id;
         }
 
-        // Final fallback.
         if (!$tenantKey && Schema::hasColumn('tenants', 'name') && !empty($tenant->name)) {
             $tenantKey = $tenant->name;
         }
@@ -67,7 +64,6 @@ Route::get('/admin/login', function () {
 
         return redirect()->to('/' . $tenantKey . '/admin/login');
     } catch (Throwable $e) {
-        // Do not leak exception details.
         return response($noTenantMsg, 404);
     }
 })->name('chatgpt.admin.login');

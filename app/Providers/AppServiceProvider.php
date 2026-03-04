@@ -20,11 +20,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Load ChatGPT entrypoints without touching routes/web.php.
+        // ChatGPT entrypoints for Filament tenant panel.
+        // IMPORTANT: do NOT attach the 'web' middleware group here.
+        // Some projects accidentally add restrictive middleware to 'web', which can cause 403 on /admin/login.
+        // These routes only redirect, so they can run with no extra middleware.
+
         $chatgptRoutes = base_path('routes/chatgpt_entrypoints.php');
 
         if (is_file($chatgptRoutes)) {
-            Route::middleware('web')->group($chatgptRoutes);
+            Route::group([], $chatgptRoutes);
         }
     }
 }

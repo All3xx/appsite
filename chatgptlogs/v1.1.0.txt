@@ -1,0 +1,13 @@
+AppSantierLaravel patch v1.1.0
+
+Fix:
+- 403 on /admin/login caused by restrictive middleware attached to the 'web' group or custom route groups.
+
+Changes:
+- AppServiceProvider loads routes/chatgpt_entrypoints.php WITHOUT the 'web' middleware group.
+- chatgpt_entrypoints routes explicitly run with empty middleware.
+- Added /chatgpt/ping for quick connectivity test.
+
+Files:
+- app/Providers/AppServiceProvider.php
+- routes/chatgpt_entrypoints.php
